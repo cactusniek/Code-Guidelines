@@ -121,18 +121,34 @@
     const status = loading ? 'loading' : error ? 'error' : 'done'
 ```
 
-
 ## function structure 
 
 - all hooks, for example: `useState`, `useEffect`, `useAtom` must always be above in the function and must be grouped per related states. never use inside if else loops
 - call event handlers always by name, like `handleSubmit`, `handleEmailChange`, `toggleShowPassword` or something that makes the action clear
 - always use e.preventDefault at `<form />`
 
-### function example: 
+### function example:
 
 ```tsx 
     const [email, setEmail] = useState('')
     const [emailError, setEmailError] = useState(false)
 ```
+
+## naming
+
+- components must be in PascalCase, for example: `UserCard.tsx` `SearchBar.tsx`
+- utilities must be in camelCase, for example: `formatDate.ts` `validateEmail.ts`
+- single word variables must be in lowercase, multiword variables must be in camelCase
+
+### naming example: 
+
+```tsx
+    const result = await authApi.Forgot(email)
+```
+
+```tsx
+    const [errorMessage, setErrorMessage] = useState('')
+```
+
 
 
