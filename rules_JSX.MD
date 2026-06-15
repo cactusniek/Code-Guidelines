@@ -10,8 +10,9 @@
 6. style imports
 
 - imports must always be in the same hiearchy as they are ordered in the code, top to bottom.
-- always use a empty line for each group / section of imports
+- always use a empty line for each group / section of imports, imports must be alphabetically ordered within the same group
 - type-only imports can be grouped with their module, prefixed by `type`
+- remove unused imports
 - always use a space inside braces
 
 ### import example:
@@ -45,6 +46,7 @@
 - keep hooks and state declarations at the top of the component, followed by helpers, then JSX `return`
 - use template literals for dynamic classNames: ``className={`input ${hasError ? 'input_error' : ''}`}``
 - limit lines to a readable length and break long JSX props over multiple lines
+- don't use inline styles
 
 ### JSX templating style
 
@@ -108,6 +110,17 @@
 ```
 
 ### conditional rendering
+
+- do not use complex logic directly inside JSX
+- move calculations, filters and conditions into variables above the `return`
+- use ternary operators only for simple two-state rendering
+- use variables for multiple conditions or nested logic
+- avoid nested ternary operators inside JSX
+- prefer early returns for completely different layouts or states
+- use `&&` only when rendering a component or element when a condition is true
+- never use `&&` with values that can be `0`, `null` or `undefined` unless the behavior is intended
+- avoid rendering empty fragments (`<> </>`) only to wrap a single element
+- keep conditional sections separated with empty lines for readability
 
 ### conditional examples:
 
