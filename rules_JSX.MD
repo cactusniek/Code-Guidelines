@@ -9,8 +9,6 @@
 5. image imports 
 6. style imports
 
-## 
-
 - imports must always be in the same hiearchy as they are ordered in the code, top to bottom.
 - always use a empty line for each group / section of imports
 - type-only imports can be grouped with their module, prefixed by `type`
@@ -39,9 +37,10 @@
     import '../../styles/site/login.scss'
 ```
 
-## general code style
+## general coding style
 
 - never use semicolons at the end of lines
+- always use a 4 space tab index
 - use single quotes `'` in TypeScript / JavaScript, double quotes `"` in JSX attributes
 - keep hooks and state declarations at the top of the component, followed by helpers, then JSX `return`
 - use template literals for dynamic classNames: ``className={`input ${hasError ? 'input_error' : ''}`}``
@@ -51,8 +50,11 @@
 
 - use empty lines to visually separate logical sections of code, as shown in the example
 - use clear class prefixes to express role and hierarchy, e.g. `container_*` for layout wrappers, `link_*` for navigation links, `icon_*` for icons, etc.”
+- use double quotes for JSX attributes:
+- break JSX props onto multiple lines when there are more than 3 props.
+- the attributes should be like in the example, `onClick`, `onSubmit`, `onChange` always the at the beginning and className always as last for best readability
 
-### code example:
+### code examples:
 
 ```tsx
     <div className="container_login">
@@ -90,10 +92,6 @@
     </div>
 ```
 
-- Use double quotes for JSX attributes:
-- Break JSX props onto multiple lines when there are more than 3 props.
-- the attributes should be as followed: (className always as the last for best readability)
-
 ```tsx
     <input
         value={email}
@@ -108,4 +106,33 @@
 
     <img alt="Vetly" src={Logo} className="image_Logo" />
 ```
+
+### conditional rendering
+
+### conditional examples:
+
+```tsx 
+    const activeUsers = users.filter(user => user.active)
+
+    <div>{activeUsers.length}</div>
+```
+
+```tsx 
+    const status = loading ? 'loading' : error ? 'error' : 'done'
+```
+
+
+## function structure 
+
+- all hooks, for example: `useState`, `useEffect`, `useAtom` must always be above in the function and must be grouped per related states. never use inside if else loops
+- call event handlers always by name, like `handleSubmit`, `handleEmailChange`, `toggleShowPassword` or something that makes the action clear
+- always use e.preventDefault at `<form />`
+
+### function example: 
+
+```tsx 
+    const [email, setEmail] = useState('')
+    const [emailError, setEmailError] = useState(false)
+```
+
 
