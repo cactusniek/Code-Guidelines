@@ -1,8 +1,8 @@
-# AI guidelines & rules by Niek
+# AI guidelines & rules by Niek | JSX
 
-### import style
+## import style
 
-always use a empty line for each group of imports
+#### import order:
 
 1. standard libraries (node, etc.) 
 2. third party imports always in order from framework down to the smaller libraries (React, React Router, Jotai, etc.)
@@ -11,14 +11,12 @@ always use a empty line for each group of imports
 5. image imports 
 6. style imports
 
-imports must always be in the same hiearchy as they are ordered in the code, top to bottom.
-
-- Always use a space inside braces, for example:
-- use a hiearchy, most important imports above such as React followed by a empty line and then another library, for every section
-- `import React, { useState, useEffect } from 'react'`
+- imports must always be in the same hiearchy as they are ordered in the code, top to bottom.
+- always use a empty line for each group / section of imports
 - type-only imports can be grouped with their module, prefixed by `type`
+- always use a space inside braces, for example
 
-example: 
+#### import example:
 
 ```tsx
     import React from 'react'
@@ -49,15 +47,12 @@ example:
 - use template literals for dynamic classNames: ``className={`input ${hasError ? 'input_error' : ''}`}``
 - limit lines to a readable length and break long JSX props over multiple lines
 
-
-### HTML / JSX style
+### JSX templating style
 
 - use empty lines to visually separate logical sections of code, as shown in the example
 - use clear class prefixes to express role and hierarchy, e.g. `container_*` for layout wrappers, `link_*` for navigation links, `icon_*` for icons, etc.”
 
-
-
-- In het algemeen: 
+example: 
 
 ```tsx
     <div className="container_login">
@@ -97,9 +92,7 @@ example:
 
 - Use double quotes for JSX attributes:
 - Break JSX props onto multiple lines when there are more than 3 props.
-- the attributes should be as followed: (class(Name) always as the last for best readability)
-
-
+- the attributes should be as followed: (className always as the last for best readability)
 
 ```tsx
     <input
