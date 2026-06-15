@@ -1,5 +1,10 @@
 # AI guidelines & rules by Niek | JSX
 
+## general
+
+- avoid using third libraries
+- 
+
 ## import style
 
 1. standard libraries (node, etc.) 
@@ -134,13 +139,25 @@
     const status = loading ? 'loading' : error ? 'error' : 'done'
 ```
 
-## function structure 
+## component structure 
 
 - all hooks, for example: `useState`, `useEffect`, `useAtom` must always be above in the function and must be grouped per related states. never use inside if else loops
 - call event handlers always by name, like `handleSubmit`, `handleEmailChange`, `toggleShowPassword` or something that makes the action clear
 - always use e.preventDefault at `<form />`
+- every component file must follow this order:
 
-### function example:
+1. imports
+2. types / interfaces
+3. constants
+4. component function
+    - hooks + state
+    - derived values
+    - helper functions
+    - event handlers
+    - JSX return
+5. export default
+
+### component example:
 
 ```tsx 
     const [email, setEmail] = useState('')
@@ -162,6 +179,111 @@
 ```tsx
     const [errorMessage, setErrorMessage] = useState('')
 ```
+
+## comments 
+
+- comments must explain why something exists, not particularly what it does, the code should be self-explanatory
+- remove unnecessary comments
+- always keep comments minimal, don't overpolute the code with comments
+
+## folder structure
+
+- keep a clear separation between:
+    - `pages` for page components that represent routes
+    - `components` for reusable components
+    - `global` for shared application logic
+    - `assets` for static files
+    - `styles` for SCSS files
+    - if there are multiple apps in the same project, create `/apps` folder and keep each app in a separate folder
+
+### folder structure example:
+
+```md
+    ├── eslint.config.js
+    ├── index.html
+    ├── package.json
+    ├── src
+    │   ├── apps
+    │   │   ├── site
+    │   │   │   ├── Forgot.tsx
+    │   │   │   ├── Landing.tsx
+    │   │   │   ├── Login.tsx
+    │   │   │   ├── Register.tsx
+    │   │   │   ├── Reset.tsx
+    │   │   │   └── Verify.tsx
+    │   │   └── widget
+    │   │       └── Widget.tsx
+    │   ├── assets
+    │   │   ├── backgrounds
+    │   │   │   ├── background-cats.svg
+    │   │   │   ├── background-large.svg
+    │   │   │   └── background-small.svg
+    │   │   ├── fonts
+    │   │   │   ├── Gelica-Trial-Regular.otf
+    │   │   │   └── Nexa-Trial-Regular.ttf
+    │   │   ├── images
+    │   │   │   ├── cat.png
+    │   │   │   ├── searchbar.svg
+    │   │   │   ├── stars.svg
+    │   │   │   ├── sustainable.svg
+    │   │   │   └── video-placeholder.png
+    │   │   ├── index.ts // for exporting assets as modules
+    │   │   ├── logo
+    │   │   │   └── logo.svg
+    │   │   └── ui
+    │   │       ├── arrow-toggle.svg
+    │   │       ├── arrow.svg
+    │   │       ├── password-hide.svg
+    │   │       ├── password-show.svg
+    │   │       ├── search.svg
+    │   │       └── whatsapp.svg
+    │   ├── components
+    │   │   ├── Footer.tsx
+    │   │   ├── Header.tsx
+    │   │   ├── Search.tsx
+    │   │   └── SwitchLanguage.tsx
+    │   ├── global
+    │   │   ├── api
+    │   │   │   └── api.ts
+    │   │   ├── atoms
+    │   │   │   └── atoms.ts
+    │   │   ├── mappings
+    │   │   │   └── doeldieren.ts
+    │   │   ├── router
+    │   │   │   └── router.tsx
+    │   │   ├── translations
+    │   │   │   ├── index.ts
+    │   │   │   ├── locales.ts
+    │   │   │   └── messages.ts
+    │   │   └── types
+    │   │       └── types.ts
+    │   ├── main.tsx
+    │   └── styles
+    │       ├── global
+    │       │   ├── _animations.scss
+    │       │   ├── _colors.scss
+    │       │   ├── _layout.scss
+    │       │   ├── _spacing.scss
+    │       │   ├── _typography.scss
+    │       │   └── global.scss
+    │       ├── site
+    │       │   ├── footer.scss
+    │       │   ├── header.scss
+    │       │   ├── landing.scss
+    │       │   ├── login.scss
+    │       │   ├── register.scss
+    │       │   ├── switchlanguage.scss
+    │       │   └── verify.scss
+    │       └── widget
+    │           ├── search.scss
+    │           └── widget.scss
+    ├── tsconfig.app.json
+    ├── tsconfig.json
+    ├── tsconfig.node.json
+    └── vite.config.ts
+```
+
+
 
 
 
