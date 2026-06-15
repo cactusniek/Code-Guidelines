@@ -1,8 +1,6 @@
 # AI guidelines & rules by Niek | JSX
 
-## import style
-
-#### import order:
+### import style
 
 1. standard libraries (node, etc.) 
 2. third party imports always in order from framework down to the smaller libraries (React, React Router, Jotai, etc.)
@@ -14,9 +12,9 @@
 - imports must always be in the same hiearchy as they are ordered in the code, top to bottom.
 - always use a empty line for each group / section of imports
 - type-only imports can be grouped with their module, prefixed by `type`
-- always use a space inside braces, for example
+- always use a space inside braces
 
-#### import example:
+### import example:
 
 ```tsx
     import React from 'react'
