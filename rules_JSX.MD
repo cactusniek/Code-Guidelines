@@ -4,7 +4,8 @@
 
 ## General
 
-- Avoid using third-party libraries
+- avoid using third-party libraries
+- keep all code consistent and follow the same style across the entire codebase
 
 ---
 
@@ -12,21 +13,21 @@
 
 **Order:**
 
-1. Standard libraries (Node, etc.)
-2. Third-party imports — in order from framework down to smaller libraries (React, React Router, Jotai, etc.)
-3. Absolute project imports (`/global/..`, config, utils, etc.)
-4. Relative imports (`../components/..` — Header.tsx, Navigation.tsx, etc.)
-5. Image imports
-6. Style imports
+1. standard libraries (Node, etc.)
+2. third-party imports — in order from framework down to smaller libraries (React, React Router, Jotai, etc.)
+3. absolute project imports (`/global/..`, config, utils, etc.)
+4. relative imports (`../components/..` — Header.tsx, Navigation.tsx, etc.)
+5. image imports
+6. style imports
 
 **Rules:**
 
-- Imports must always follow the same hierarchy as they appear in the code, top to bottom
-- Always use an empty line between each group/section
-- Imports must be alphabetically ordered within the same group
-- Type-only imports can be grouped with their module, prefixed by `type`
-- Remove unused imports
-- Always use a space inside braces
+- imports must always follow the same hierarchy as they appear in the code, top to bottom
+- always use an empty line between each group / section
+- imports must be alphabetically ordered within the same group
+- type-only imports can be grouped with their module, prefixed by `type`
+- remove unused imports
+- always use a space inside braces
 
 **Example:**
 
@@ -55,20 +56,20 @@ import '../../styles/site/login.scss'
 
 ## General Coding Style
 
-- Never use semicolons at the end of lines
-- Always use a 4-space tab index
-- Use single quotes `'` in TypeScript/JavaScript, double quotes `"` in JSX attributes
-- Keep hooks and state declarations at the top of the component, followed by helpers, then the JSX `return`
-- Use template literals for dynamic classNames: `` className={`input ${hasError ? 'input_error' : ''}`} ``
-- Limit lines to a readable length and break long JSX props over multiple lines
-- Don't use inline styles
+- never use semicolons at the end of lines
+- always use a 4-space tab index
+- use single quotes `'` in TypeScript / JavaScript, double quotes `"` in JSX attributes
+- keep hooks and state declarations at the top of the component, followed by helpers, then the JSX `return`
+- use template literals for dynamic classnames: `` className={`input ${hasError ? 'input_error' : ''}`} ``
+- limit lines to a readable length and break long JSX props over multiple lines
+- avoid using inline styles, only if absolutely necessary
 
 ### JSX Templating Style
 
-- Use empty lines to visually separate logical sections of code
-- Use clear class prefixes to express role and hierarchy — e.g. `container_*` for layout wrappers, `link_*` for navigation links, `icon_*` for icons, etc.
-- Use double quotes for JSX attributes
-- Break JSX props onto multiple lines when there are more than 3 props
+- use empty lines to visually separate logical sections of code
+- use clear class prefixes to express role and hierarchy — e.g. `container_*` for layout wrappers, `link_*` for navigation links, `icon_*` for icons, etc.
+- use double quotes for JSX attributes
+- break JSX props onto multiple lines when there are more than 3 props
 - `onClick`, `onSubmit`, `onChange` always go at the beginning; `className` always goes last for best readability
 
 **Example:**
@@ -130,8 +131,6 @@ import '../../styles/site/login.scss'
     className={emailError ? 'input_error' : ''}
 />
 
-// or:
-
 <img alt="Vetly" src={Logo} className="image_Logo" />
 ```
 
@@ -139,16 +138,16 @@ import '../../styles/site/login.scss'
 
 ## Conditional Rendering
 
-- Do not use complex logic directly inside JSX
-- Move calculations, filters, and conditions into variables above the `return`
-- Use ternary operators only for simple two-state rendering
-- Use variables for multiple conditions or nested logic
-- Avoid nested ternary operators inside JSX
-- Prefer early returns for completely different layouts or states
-- Use `&&` only when rendering a component or element based on a condition being true
-- Never use `&&` with values that can be `0`, `null`, or `undefined` unless the behavior is intended
-- Avoid rendering empty fragments (`<></>`) only to wrap a single element
-- Keep conditional sections separated with empty lines for readability
+- do not use complex logic directly inside JSX
+- move calculations, filters, and conditions into variables above the `return`
+- use ternary operators only for simple two-state rendering
+- use variables for multiple conditions or nested logic
+- avoid nested ternary operators inside JSX
+- prefer early returns for completely different layouts or states
+- use `&&` only when rendering a component or element based on a condition being true
+- never use `&&` with values that can be `0`, `null`, or `undefined` unless the behavior is intended
+- avoid rendering empty fragments (`<></>`) only to wrap a single element
+- keep conditional sections separated with empty lines for readability
 
 **Examples:**
 
@@ -166,21 +165,21 @@ const status = loading ? 'loading' : error ? 'error' : 'done'
 
 ## Component Structure
 
-- All hooks — e.g. `useState`, `useEffect`, `useAtom` — must always be declared at the top of the function and grouped by related state; never use hooks inside `if`/`else` or loops
-- Call event handlers always by name: `handleSubmit`, `handleEmailChange`, `toggleShowPassword`, or something else that makes the action clear
-- Always use `e.preventDefault()` on `<form />`
-- Every component file must follow this order:
+- all hooks — e.g. `useState`, `useEffect`, `useAtom` — must always be declared at the top of the function and grouped by related state; never use hooks inside `if`/`else` or loops
+- call event handlers always by name: `handleSubmit`, `handleEmailChange`, `toggleShowPassword`, or something else that makes the action clear
+- always use `e.preventDefault()` on `<form />`
+- every component file must follow this order:
 
-1. Imports
-2. Types / interfaces
-3. Constants
-4. Component function
-   - Hooks + state
-   - Derived values
-   - Helper functions
-   - Event handlers
+1. imports
+2. types / interfaces
+3. constants
+4. component function
+   - hooks + state
+   - derived values
+   - helper functions
+   - event handlers
    - JSX return
-5. `export default`
+5. `export default`, always at the bottom
 
 **Example:**
 
@@ -193,9 +192,9 @@ const [emailError, setEmailError] = useState(false)
 
 ## Naming
 
-- Components must be in PascalCase — e.g. `UserCard.tsx`, `SearchBar.tsx`
-- Utilities must be in camelCase — e.g. `formatDate.ts`, `validateEmail.ts`
-- Single-word variables must be in lowercase; multi-word variables must be in camelCase
+- components must be in PascalCase — e.g. `UserCard.tsx`, `SearchBar.tsx`
+- utilities must be in camelCase — e.g. `formatDate.ts`, `validateEmail.ts`
+- single-word variables must be in lowercase; multi-word variables must be in camelCase
 
 **Examples:**
 
@@ -211,22 +210,22 @@ const [errorMessage, setErrorMessage] = useState('')
 
 ## Comments
 
-- Comments must explain *why* something exists, not *what* it does — the code should be self-explanatory
-- Remove unnecessary comments
-- Always keep comments minimal; don't overpollute the code with comments
+- comments must explain *why* something exists, not *what* it does — the code should be self-explanatory
+    - only use comments to explain (more / very) complex logic
+- remove unnecessary comments
+- always keep comments minimal; don't overpollute the code with comments
 
 ---
 
 ## Folder Structure
 
-Keep a clear separation between:
-
+- keep a clear separation between:
 - `pages` — page components that represent routes
 - `components` — reusable components
 - `global` — shared application logic
 - `assets` — static files
 - `styles` — SCSS files
-- If there are multiple apps in the same project, create an `/apps` folder and keep each app in a separate folder
+- if there are multiple apps in the same project, create an `/apps` folder and keep each app in a separate folder
 
 **Example:**
 
@@ -314,3 +313,4 @@ Keep a clear separation between:
 ├── tsconfig.node.json
 └── vite.config.ts
 ```
+
