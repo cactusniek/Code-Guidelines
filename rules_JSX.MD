@@ -1,6 +1,6 @@
 # AI guidelines & rules by Niek | JSX
 
-### import style
+## import style
 
 1. standard libraries (node, etc.) 
 2. third party imports always in order from framework down to the smaller libraries (React, React Router, Jotai, etc.)
@@ -8,6 +8,8 @@
 4. relative imports ('../components/..' Header.tsx, Navigation.tsx, etc.) 
 5. image imports 
 6. style imports
+
+## 
 
 - imports must always be in the same hiearchy as they are ordered in the code, top to bottom.
 - always use a empty line for each group / section of imports
@@ -50,7 +52,7 @@
 - use empty lines to visually separate logical sections of code, as shown in the example
 - use clear class prefixes to express role and hierarchy, e.g. `container_*` for layout wrappers, `link_*` for navigation links, `icon_*` for icons, etc.”
 
-example: 
+### code example:
 
 ```tsx
     <div className="container_login">
@@ -102,7 +104,7 @@ example:
         className={emailError ? 'input_error' : ''}
     />
 
-    // or
+    // or:
 
     <img alt="Vetly" src={Logo} className="image_Logo" />
 ```
