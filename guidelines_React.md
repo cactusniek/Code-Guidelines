@@ -4,7 +4,7 @@
 
 ## General
 
-- avoid using third party libraries
+- avoid using third party libraries, unless it makes the code cleaner and smaller
 - keep all code consistent and follow the same style across the entire codebase
 
 ---
@@ -178,14 +178,16 @@ const status = loading ? 'loading' : error ? 'error' : 'done'
 2. types / interfaces
 3. constants
 4. component function
+   - use export default inline with the function declaration
    - hooks + state
    - derived values
    - helper functions
    - event handlers
    - JSX return
-5. `export default`, always at the bottom
 
 **Example:**
+
+<!-- COMPONENT WITH EXPORT FUNCTION ALSO HERE -->
 
 ```tsx
 const [email, setEmail] = useState('')
@@ -472,3 +474,9 @@ export const locales = {
 
 export type { LocaleLanguage }
 ```
+
+## 3rd Party Libraries
+
+- for global state management always use Jotai, this keeps the code very minimal and readable
+
+**Examples:**
