@@ -6,7 +6,6 @@
 
 - avoid using third-party libraries
 - keep all code consistent and follow the same style across the entire codebase
-
 ---
 
 ## Import Style
@@ -63,6 +62,7 @@ import '../../styles/site/login.scss'
 - use template literals for dynamic classnames: `` className={`input ${hasError ? 'input_error' : ''}`} ``
 - limit lines to a readable length and break long JSX props over multiple lines
 - avoid using inline styles, only if absolutely necessary
+- when using try / catch always put (err) in the catch block
 
 ### JSX Templating Style
 
@@ -167,6 +167,7 @@ const status = loading ? 'loading' : error ? 'error' : 'done'
 
 - all hooks — e.g. `useState`, `useEffect`, `useAtom` — must always be declared at the top of the function and grouped by related state; never use hooks inside `if`/`else` or loops
 - call event handlers always by name: `handleSubmit`, `handleEmailChange`, `toggleShowPassword`, or something else that makes the action clear
+- group related state together, for example: `isLoading`, `searchProgress`, `searchMessage` should be declared as one block, seperated by an empty line from unrelated state
 - always use `e.preventDefault()` on `<form />`
 - every component file must follow this order:
 
@@ -220,11 +221,11 @@ const [errorMessage, setErrorMessage] = useState('')
 ## Folder Structure
 
 - keep a clear separation between:
-- `pages` — page components that represent routes
-- `components` — reusable components
-- `global` — shared application logic
-- `assets` — static files
-- `styles` — SCSS files
+    - `pages` — page components that represent routes
+    - `components` — reusable components
+    - `global` — shared application logic
+    - `assets` — static files
+    - `styles` — SCSS files
 - if there are multiple apps in the same project, create an `/apps` folder and keep each app in a separate folder
 
 **Example:**
@@ -313,4 +314,136 @@ const [errorMessage, setErrorMessage] = useState('')
 ├── tsconfig.node.json
 └── vite.config.ts
 ```
+
+---
+
+## API Files
+
+- all api files must be located in `/global/api/` and named `api.ts`
+- API files use a static class per domain for example: authApi, settingsApi, only make new files if the file is getting too large or if the domain is completely unrelated to the other domains, in that case also rename api.ts to the domain name
+- each class must have one private static async fetchData() method that handles the actual fetch and error logging
+- public methods call fetchData and handle their own try / catch, always returning a typed response
+- always use const for the response variable, only use let if reassignment is needed within the same scope
+
+**Example:**
+
+```tsx
+export class authApi {
+    private static serverUrl: string = 'http://localhost:4000/auth'
+
+    private static async fetchData(endpoint: string, method: string, body?: any): Promise<any> {
+        try {
+            const response = await fetch(this.serverUrl + endpoint, {
+                method: method,
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                // credentials: 'include',
+                body: body ? JSON.stringify(body) : undefined,
+            })
+
+            return response.json()
+        } catch (err) {
+            console.error(`Failed to fetch: error: ${err}, endpoint: ${endpoint}, method: (${method})`)
+            throw err
+        }
+    }
+
+    public static async Register(companyname: string, contactperson: string, phonenumber: string, email: string, password: string): Promise<AuthResponse> {
+        const body: any = { companyname: companyname, contactperson: contactperson, phonenumber: phonenumber, email: email, password: password }
+
+        try {
+            const response = await this.fetchData('/register', 'POST', body)
+
+            return response
+        } catch (err) {
+            console.error('API fetch error: ', err)
+            return { success: false, message: 'Something went wrong, please try again' }
+        }
+    }
+}
+```
+
+## Error Handling
+
+- use a variable like this `password_too_short: 'Password is too short'` that later gets translated instead of hardcoding the error message in the API response, only use hardcoded messages for generic errors such as `Something went wrong, please try again`
+- always log the actual error for dedugging purposes, but return a user friendly message to the frontend, never return the actual error message from the server to the frontend
+
+## Translations
+
+- when translations are neededd they must be in `/global/translations/` and split into locales.ts and messages.ts
+- locales.ts contains the actual translations, messages.ts contains the keys that are used to access the translations
+
+**Examples:**
+
+```tsx 
+export const messages = {
+    en: {
+        password_too_short: 'Password is too short',
+        register_success: 'Registration successful',
+        register_error: 'Registration failed',
+        user_exists: 'User already exists',
+    },
+
+    nl: {
+        password_too_short: 'Wachtwoord is te kort',
+        register_success: 'Registratie succesvol',
+        register_error: 'Registratie mislukt',
+        user_exists: 'Gebruiker bestaat al',
+    },
+} as const
+
+export type MessageLanguage = keyof typeof messages
+export type MessageKey = keyof typeof messages.en
+```
+
+```tsx
+export const locales = {
+    en: {
+        register: {
+            title: 'Sign up',
+            verify: 'Verify',
+            companyname: 'companyname',
+            contactperson: 'contactperson',
+            phonenumber: 'phonenumber',
+            email: 'e-mail',
+            password: 'password',
+        },
+
+        login: {
+            title: 'Login',
+            email: 'e-mail',
+            password: 'password',
+            submit: 'Login',
+            forgot_password: 'forgot password?',
+            register_link: 'register instead',
+        },
+    },
+
+    nl: {
+        register: {
+            title: 'Registreer',
+            verify: 'Verifieer',
+            companyname: 'bedrijfsnaam',
+            contactperson: 'contactpersoon',
+            phonenumber: 'telefoonnummer',
+            email: 'e-mailadres',
+            password: 'wachtwoord',
+        },
+
+        login: {
+            title: 'Login',
+            email: 'e-mailadres',
+            password: 'wachtwoord',
+            submit: 'Login',
+            forgot_password: 'wachtwoord vergeten?',
+            register_link: 'of registreer',
+        },
+    }
+} as const
+
+export type { LocaleLanguage }
+```
+
 
