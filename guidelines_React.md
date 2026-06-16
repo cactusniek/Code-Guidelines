@@ -1,11 +1,12 @@
-# AI Guidelines & Rules — Niek | JSX
+# AI Guidelines & Rules by Niek | JSX
 
 ---
 
 ## General
 
-- avoid using third-party libraries
+- avoid using third party libraries
 - keep all code consistent and follow the same style across the entire codebase
+
 ---
 
 ## Import Style
@@ -13,9 +14,9 @@
 **Order:**
 
 1. standard libraries (Node, etc.)
-2. third-party imports — in order from framework down to smaller libraries (React, React Router, Jotai, etc.)
+2. third party imports in order from framework down to smaller libraries (React, React Router, Jotai, etc.)
 3. absolute project imports (`/global/..`, config, utils, etc.)
-4. relative imports (`../components/..` — Header.tsx, Navigation.tsx, etc.)
+4. relative imports (`../components/..` Header.tsx, Navigation.tsx, etc.)
 5. image imports
 6. style imports
 
@@ -24,7 +25,7 @@
 - imports must always follow the same hierarchy as they appear in the code, top to bottom
 - always use an empty line between each group / section
 - imports must be alphabetically ordered within the same group
-- type-only imports can be grouped with their module, prefixed by `type`
+- type only imports can be grouped with their module, prefixed by `type`
 - remove unused imports
 - always use a space inside braces
 
@@ -56,18 +57,19 @@ import '../../styles/site/login.scss'
 ## General Coding Style
 
 - never use semicolons at the end of lines
-- always use a 4-space tab index
-- use single quotes `'` in TypeScript / JavaScript, double quotes `"` in JSX attributes
+- always use a 4 space tab index
+- use single quotes `'` in TypeScript / JavaScript, double quotes `"` in JSX attributes or if dynamic values are used ````
 - keep hooks and state declarations at the top of the component, followed by helpers, then the JSX `return`
 - use template literals for dynamic classnames: `` className={`input ${hasError ? 'input_error' : ''}`} ``
 - limit lines to a readable length and break long JSX props over multiple lines
 - avoid using inline styles, only if absolutely necessary
-- when using try / catch always put (err) in the catch block
+- always use `const` instead of `let` wherever possible
+- when using try / catch always put `(err)` in the catch block
 
 ### JSX Templating Style
 
 - use empty lines to visually separate logical sections of code
-- use clear class prefixes to express role and hierarchy — e.g. `container_*` for layout wrappers, `link_*` for navigation links, `icon_*` for icons, etc.
+- use clear class prefixes to express role and hierarchy for example `container_*` for layout wrappers, `link_*` for navigation links, `icon_*` for icons, etc.
 - use double quotes for JSX attributes
 - break JSX props onto multiple lines when there are more than 3 props
 - `onClick`, `onSubmit`, `onChange` always go at the beginning; `className` always goes last for best readability
@@ -146,7 +148,7 @@ import '../../styles/site/login.scss'
 - prefer early returns for completely different layouts or states
 - use `&&` only when rendering a component or element based on a condition being true
 - never use `&&` with values that can be `0`, `null`, or `undefined` unless the behavior is intended
-- avoid rendering empty fragments (`<></>`) only to wrap a single element
+- avoid rendering empty fragments (`<> </>`) only to wrap a single element
 - keep conditional sections separated with empty lines for readability
 
 **Examples:**
@@ -165,11 +167,12 @@ const status = loading ? 'loading' : error ? 'error' : 'done'
 
 ## Component Structure
 
-- all hooks — e.g. `useState`, `useEffect`, `useAtom` — must always be declared at the top of the function and grouped by related state; never use hooks inside `if`/`else` or loops
+- all hooks, for example: `useState`, `useEffect`, `useAtom` must always be declared at the top of the function and grouped by related state; never use hooks inside `if`/`else` or loops
 - call event handlers always by name: `handleSubmit`, `handleEmailChange`, `toggleShowPassword`, or something else that makes the action clear
-- group related state together, for example: `isLoading`, `searchProgress`, `searchMessage` should be declared as one block, seperated by an empty line from unrelated state
+- group related state together, for example: `isLoading`, `searchProgress`, `searchMessage` should be declared as one block, separated by an empty line from unrelated state
 - always use `e.preventDefault()` on `<form />`
-- every component file must follow this order:
+
+**Order:**
 
 1. imports
 2. types / interfaces
@@ -193,9 +196,9 @@ const [emailError, setEmailError] = useState(false)
 
 ## Naming
 
-- components must be in PascalCase — e.g. `UserCard.tsx`, `SearchBar.tsx`
-- utilities must be in camelCase — e.g. `formatDate.ts`, `validateEmail.ts`
-- single-word variables must be in lowercase; multi-word variables must be in camelCase
+- components must be in PascalCase: `UserCard.tsx`, `SearchBar.tsx`
+- utilities must be in camelCase: `formatDate.ts`, `validateEmail.ts`
+- single word variables must be in lowercase; multiword variables must be in camelCase
 
 **Examples:**
 
@@ -211,8 +214,8 @@ const [errorMessage, setErrorMessage] = useState('')
 
 ## Comments
 
-- comments must explain *why* something exists, not *what* it does — the code should be self-explanatory
-    - only use comments to explain (more / very) complex logic
+- comments must explain *why* something exists, not *what* it does, the code should be self-explanatory
+- only use comments to explain complex logic
 - remove unnecessary comments
 - always keep comments minimal; don't overpollute the code with comments
 
@@ -221,11 +224,11 @@ const [errorMessage, setErrorMessage] = useState('')
 ## Folder Structure
 
 - keep a clear separation between:
-    - `pages` — page components that represent routes
-    - `components` — reusable components
-    - `global` — shared application logic
-    - `assets` — static files
-    - `styles` — SCSS files
+    - `pages` - page components that represent routes
+    - `components` - reusable components
+    - `global` - shared application logic
+    - `assets` - static files
+    - `styles` - SCSS files
 - if there are multiple apps in the same project, create an `/apps` folder and keep each app in a separate folder
 
 **Example:**
@@ -319,15 +322,15 @@ const [errorMessage, setErrorMessage] = useState('')
 
 ## API Files
 
-- all api files must be located in `/global/api/` and named `api.ts`
-- API files use a static class per domain for example: authApi, settingsApi, only make new files if the file is getting too large or if the domain is completely unrelated to the other domains, in that case also rename api.ts to the domain name
-- each class must have one private static async fetchData() method that handles the actual fetch and error logging
-- public methods call fetchData and handle their own try / catch, always returning a typed response
-- always use const for the response variable, only use let if reassignment is needed within the same scope
+- all API files must be located in `/global/api/` and named `api.ts`
+- API files use a static class per domain, for example: `authApi`, `settingsApi`; only create new files if the file is getting too large or if the domain is completely unrelated, in that instance also rename `api.ts` to the domain name
+- each class must have one `private static async fetchData()` method that handles the actual fetch and error logging
+- public methods call `fetchData` and handle their own try / catch, always returning a typed response
+- always use `const` for the response variable; only use `let` if reassignment is needed within the same scope
 
 **Example:**
 
-```tsx
+```ts
 export class authApi {
     private static serverUrl: string = 'http://localhost:4000/auth'
 
@@ -339,7 +342,6 @@ export class authApi {
                     Accept: 'application/json',
                     'Content-Type': 'application/json',
                 },
-                // credentials: 'include',
                 body: body ? JSON.stringify(body) : undefined,
             })
 
@@ -351,7 +353,7 @@ export class authApi {
     }
 
     public static async Register(companyname: string, contactperson: string, phonenumber: string, email: string, password: string): Promise<AuthResponse> {
-        const body: any = { companyname: companyname, contactperson: contactperson, phonenumber: phonenumber, email: email, password: password }
+        const body = { companyname, contactperson, phonenumber, email, password }
 
         try {
             const response = await this.fetchData('/register', 'POST', body)
@@ -365,19 +367,44 @@ export class authApi {
 }
 ```
 
+---
+
+## Atom Files
+
+- atom files live in `/global/atoms/atoms.ts`
+- group related atoms together, separated by empty lines
+- atom names must be in camelCase suffixed with `Atom` for example: `languageAtom`, `showNavAtom`
+- constants or values imported from `types` can be re-exported directly from the atom file using `export { }` keeping types and atoms co-located at one import path
+
+**Example:**
+
+```ts
+export const showNavAtom = atom(false)
+export const disappearNavAtom = atom(false)
+
+export const languageAtom = atom<LocaleLanguage>('nl')
+
+export { supportedLanguages }
+```
+
+---
+
 ## Error Handling
 
-- use a variable like this `password_too_short: 'Password is too short'` that later gets translated instead of hardcoding the error message in the API response, only use hardcoded messages for generic errors such as `Something went wrong, please try again`
-- always log the actual error for dedugging purposes, but return a user friendly message to the frontend, never return the actual error message from the server to the frontend
+- use translation keys instead of hardcoded strings for error messages, for example: `password_too_short` only use hardcoded messages for generic errors such as `'Something went wrong, please try again'`
+- always log the actual error for debugging purposes, but return a user friendly message to the frontend; never return the raw server error to the frontend
+
+---
 
 ## Translations
 
-- when translations are neededd they must be in `/global/translations/` and split into locales.ts and messages.ts
-- locales.ts contains the actual translations, messages.ts contains the keys that are used to access the translations
+- when translations are needed they must be in `/global/translations/` and split into `locales.ts` and `messages.ts`
+- `messages.ts` contains feedback/error keys and their translations per language
+- `locales.ts` contains the UI string translations per language, grouped by page or feature
 
 **Examples:**
 
-```tsx 
+```ts
 export const messages = {
     en: {
         password_too_short: 'Password is too short',
@@ -398,7 +425,7 @@ export type MessageLanguage = keyof typeof messages
 export type MessageKey = keyof typeof messages.en
 ```
 
-```tsx
+```ts
 export const locales = {
     en: {
         register: {
@@ -440,10 +467,8 @@ export const locales = {
             forgot_password: 'wachtwoord vergeten?',
             register_link: 'of registreer',
         },
-    }
+    },
 } as const
 
 export type { LocaleLanguage }
 ```
-
-
