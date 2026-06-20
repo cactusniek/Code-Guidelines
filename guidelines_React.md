@@ -267,7 +267,8 @@ import '../../styles/site/login.scss'
 - use double quotes for JSX attributes
 - break JSX props onto multiple lines when there are more than 3 props
 - `onClick`, `onSubmit`, `onChange` always go at the beginning; `className` always goes last for best readability
-- always add an `alt` attribute to `<img>` — use a descriptive value for meaningful images, empty string `alt=""` for decorative ones
+- always add an `alt` attribute to `<img>`, use a descriptive value for images that carry meaning (e.g. a logo or photo); use `alt=""` for decorative images where removing them would not affect understanding
+- `alt` values follow the same prefix convention as classNames but the name part is always PascalCase: `alt="icon_ArrowRight"`, `alt="image_DashboardOverview"`, `alt="image_Logo"`
 
 **Examples:**
 
@@ -744,3 +745,4 @@ const baseUrl = import.meta.env.VITE_API_URL
 - only use comments to explain complex logic
 - remove unnecessary comments
 - always keep comments minimal; never overuse comments in code
+- never use em dashes (—) in comments

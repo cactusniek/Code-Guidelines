@@ -199,7 +199,7 @@ $breakpoints-width: (
     to { opacity: 1; }
 }
 
-@keyframes Medicine {
+@keyframes Card {
     from {
         opacity: 0;
         transform: translateY(0.5rem);
@@ -314,7 +314,7 @@ $breakpoints-width: (
 
 - class names follow the same prefix convention as JSX: `container_*`, `icon_*`, `link_*`, `button_*`, `image_*`, `text_*`
 - modifier / state classes are lowercase: `.active`, `.visible`, `.show`, `.error`, `.rotate`
-- keyframe names are PascalCase: `Background`, `Medicine`, `Navigation`
+- keyframe names are PascalCase: `Background`, `Card`, `Navigation`
 - SCSS variable names are kebab-case: `$color-black`, `$border-radius-md`, `$background-site`
 
 ---
@@ -384,5 +384,8 @@ box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.05);
 
 ## Comments
 
-- same rule as in TypeScript: only comment the *why*, not the *what*
-- use comments to mark logical sections within large files if needed, but keep them minimal
+- comments must explain *why* something exists, not *what* it does, the code itself should be self explanatory
+- only use comments to explain complex logic
+- remove unnecessary comments
+- always keep comments minimal; never overuse comments in code
+- never use em dashes (—) in comments
