@@ -7,7 +7,7 @@
 - never use third party CSS libraries unless absolutely necessary, except for SCSS
 - keep all SCSS consistent and follow the same style across the entire codebase
 - always use `rem` for spacing and sizing, never `px` (exception: borders, box-shadows, and font-size in base `html`)
-- never use inline styles in components, all styling belongs in CSS / SCSS files
+- avoid inline styles in components, all styling belongs in SCSS files; only use inline styles when the value is truly dynamic (e.g. calculated from data or index) and expressing it with class modifiers would require an impractical number of classes to cover every possible variation
 
 ---
 

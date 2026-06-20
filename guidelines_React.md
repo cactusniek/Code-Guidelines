@@ -261,6 +261,7 @@ import '../../styles/site/login.scss'
 
 ### JSX Templating Style
 
+- always place an empty line between sibling JSX elements; every direct child of a container gets its own visual breathing room, regardless of how small or related they are; the only exception is a single-expression `.map()` where each item is one self closing tag
 - use empty lines to visually separate logical sections of code
 - use clear class prefixes to express role and hierarchy for example `container_*` for layout wrappers, `link_*` for navigation links, `icon_*` for icons, etc.
 - use double quotes for JSX attributes
@@ -480,7 +481,7 @@ const status = loading ? 'loading' : error ? 'error' : 'done'
 
 - always provide a stable, unique `key` prop when rendering lists — never use the array index as key
 - when the render logic per item is more than a single line, extract it into a named function above the `return`
-- keep the `.map()` call itself clean don't use logic inside, just a function call
+- keep the `.map()` call itself clean don't use logic inside, just a function call, except when the logic can be kept minimal, so that "more simple" logic isn't going to be above the return
 
 **Examples:**
 
