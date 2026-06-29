@@ -13,28 +13,31 @@
 
 ## Styles Folder Structure
 
-- keep a clear separation between global shared styles and component / page specific styles
+- the `styles/` folder contains only global partials — component and page SCSS lives co-located next to the component in its own folder
 - global partials are prefixed with `_` and imported through a single `global.scss` entry file
-- component and page files import what they need directly using `@use`
+- because `vite.config.ts` sets `loadPaths` to `src/styles/global`, component SCSS files can import partials without a path: `@use 'colors' as *`
 
 **Example:**
 
 ```
-└── styles
-    ├── global
-    │   ├── _animations.scss
-    │   ├── _colors.scss
-    │   ├── _layout.scss
-    │   ├── _spacing.scss
-    │   ├── _typography.scss
-    │   └── global.scss
-    ├── site
-    │   ├── landing.scss
-    │   ├── login.scss
-    │   └── register.scss
-    └── components
-        ├── footer.scss
-        └── header.scss
+├── src
+│   ├── components
+│   │   └── Header
+│   │       ├── Header.tsx
+│   │       └── header.scss        <- co-located with the component
+│   ├── apps
+│   │   └── site
+│   │       └── Login
+│   │           ├── Login.tsx
+│   │           └── login.scss     <- co-located with the page
+│   └── styles
+│       └── global                 <- only global partials live here
+│           ├── _animations.scss
+│           ├── _colors.scss
+│           ├── _layout.scss
+│           ├── _spacing.scss
+│           ├── _typography.scss
+│           └── global.scss
 ```
 
 ---
@@ -218,15 +221,16 @@ $breakpoints-width: (
 - always use `@use`, never `@import` (deprecated in modern SCSS)
 - use `as *` to expose variables and mixins without a namespace prefix
 - import only what a file actually uses, component files import directly from the global partials, not through `global.scss`
+- because `vite.config.ts` sets `loadPaths` to `src/styles/global`, partial names can be used directly without a relative path
 
 **Example:**
 
 ```scss
-@use '../global/colors' as *;
-@use '../global/typography' as *;
-@use '../global/spacing' as *;
-@use '../global/layout' as *;
-@use '../global/animations' as *;
+@use 'colors' as *;
+@use 'typography' as *;
+@use 'spacing' as *;
+@use 'layout' as *;
+@use 'animations' as *;
 ```
 
 ---
@@ -314,7 +318,7 @@ $breakpoints-width: (
 
 - class names follow the same prefix convention as JSX: `container_*`, `icon_*`, `link_*`, `button_*`, `image_*`, `text_*`
 - modifier / state classes are lowercase: `.active`, `.visible`, `.show`, `.error`, `.rotate`
-- keyframe names are PascalCase: `Background`, `Card`, `Navigation`
+- keyframe names are PascalCase: `Background`, `Medicine`, `Navigation`
 - SCSS variable names are kebab-case: `$color-black`, `$border-radius-md`, `$background-site`
 
 ---
@@ -384,8 +388,5 @@ box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.05);
 
 ## Comments
 
-- comments must explain *why* something exists, not *what* it does, the code itself should be self explanatory
-- only use comments to explain complex logic
-- remove unnecessary comments
-- always keep comments minimal; never overuse comments in code
-- never use em dashes (—) in comments
+- same rule as in TypeScript: only comment the *why*, not the *what*
+- use comments to mark logical sections within large files if needed, but keep them minimal

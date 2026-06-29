@@ -1,4 +1,4 @@
-# AI Guidelines & Rules by Niek | JSX
+# AI Guidelines & Rules by Niek | TSX
 
 ---
 
@@ -6,17 +6,19 @@
 
 - avoid using third party libraries, unless it makes the code cleaner and smaller
 - keep all code consistent and follow the same style across the entire codebase
+- always use TSX instead of JSX
 
 ---
 
 ## Project Structure
 
 - keep a clear separation between:
-    - `pages` - page components that represent routes
+    - `apps` - page components that represent routes, grouped per app
     - `components` - reusable components
     - `global` - shared application logic
     - `assets` - static files
-    - `styles` - SCSS files
+    - `styles` - only global SCSS partials; component and page SCSS lives co-located next to the component
+- each component and page lives in its own folder containing both the `.tsx` and `.scss` file
 - if there are multiple apps in the same project, create an `/apps` folder and keep each app in a separate folder
 
 **Example:**
@@ -30,15 +32,32 @@
 ├── src
 │   ├── apps
 │   │   ├── site
-│   │   │   ├── Forgot.tsx
-│   │   │   ├── Landing.tsx
-│   │   │   ├── Login.tsx
-│   │   │   ├── Register.tsx
-│   │   │   ├── Reset.tsx
-│   │   │   └── Verify.tsx
+│   │   │   ├── Forgot
+│   │   │   │   ├── Forgot.tsx
+│   │   │   │   └── forgot.scss
+│   │   │   ├── Landing
+│   │   │   │   ├── Landing.tsx
+│   │   │   │   └── landing.scss
+│   │   │   ├── Login
+│   │   │   │   ├── Login.tsx
+│   │   │   │   └── login.scss
+│   │   │   ├── Register
+│   │   │   │   ├── Register.tsx
+│   │   │   │   └── register.scss
+│   │   │   ├── Reset
+│   │   │   │   ├── Reset.tsx
+│   │   │   │   └── reset.scss
+│   │   │   └── Verify
+│   │   │       ├── Verify.tsx
+│   │   │       └── verify.scss
 │   │   └── widget
-│   │       └── Widget.tsx
+│   │       ├── Widget.tsx
+│   │       └── widget.scss
 │   ├── assets
+│   │   ├── animals
+│   │   │   ├── cat.svg
+│   │   │   ├── dog.svg
+│   │   │   └── ...
 │   │   ├── backgrounds
 │   │   │   ├── background-cats.svg
 │   │   │   ├── background-large.svg
@@ -49,24 +68,24 @@
 │   │   ├── images
 │   │   │   ├── cat.png
 │   │   │   ├── searchbar.svg
-│   │   │   ├── stars.svg
-│   │   │   ├── sustainable.svg
-│   │   │   └── video-placeholder.png
+│   │   │   └── ...
 │   │   ├── index.ts
 │   │   ├── logo
 │   │   │   └── logo.svg
 │   │   └── ui
 │   │       ├── arrow-toggle.svg
 │   │       ├── arrow.svg
-│   │       ├── password-hide.svg
-│   │       ├── password-show.svg
-│   │       ├── search.svg
-│   │       └── whatsapp.svg
+│   │       └── ...
 │   ├── components
-│   │   ├── Footer.tsx
-│   │   ├── Header.tsx
-│   │   ├── Search.tsx
-│   │   └── SwitchLanguage.tsx
+│   │   ├── Footer
+│   │   │   ├── Footer.tsx
+│   │   │   └── footer.scss
+│   │   ├── Header
+│   │   │   ├── Header.tsx
+│   │   │   └── header.scss
+│   │   └── SwitchLanguage
+│   │       ├── SwitchLanguage.tsx
+│   │       └── switchlanguage.scss
 │   ├── global
 │   │   ├── api
 │   │   │   └── api.ts
@@ -84,24 +103,13 @@
 │   │       └── types.ts
 │   ├── main.tsx
 │   └── styles
-│       ├── global
-│       │   ├── _animations.scss
-│       │   ├── _colors.scss
-│       │   ├── _layout.scss
-│       │   ├── _spacing.scss
-│       │   ├── _typography.scss
-│       │   └── global.scss
-│       ├── site
-│       │   ├── footer.scss
-│       │   ├── header.scss
-│       │   ├── landing.scss
-│       │   ├── login.scss
-│       │   ├── register.scss
-│       │   ├── switchlanguage.scss
-│       │   └── verify.scss
-│       └── widget
-│           ├── search.scss
-│           └── widget.scss
+│       └── global
+│           ├── _animations.scss
+│           ├── _colors.scss
+│           ├── _layout.scss
+│           ├── _spacing.scss
+│           ├── _typography.scss
+│           └── global.scss
 ├── tsconfig.app.json
 ├── tsconfig.json
 ├── tsconfig.node.json
@@ -159,8 +167,8 @@ const [language, setLanguage] = useAtom(languageAtom)
 // React Router DOM for router setup in global/router/router.tsx
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 
-import Landing from '../../apps/site/Landing'
-import Login from '../../apps/site/Login'
+import Landing from '@/apps/site/Landing/Landing'
+import Login from '@/apps/site/Login/Login'
 
 export function AppRouter() {
     return (
@@ -221,6 +229,7 @@ import { Helmet } from 'react-helmet-async'
 - type only imports can be grouped with their module, prefixed by `type`
 - remove unused imports
 - always use a space inside braces
+- the `@` alias resolves to `src/` — use it for absolute imports instead of long relative paths: `@/global/atoms/atoms`, `@/components/Header/Header`
 
 **Example:**
 
@@ -231,18 +240,18 @@ import { useNavigate, NavLink } from 'react-router-dom'
 import { Helmet } from 'react-helmet-async'
 
 import { useAtom } from 'jotai'
-import { emailRegexAtom, languageAtom } from '../../global/atoms/atoms'
+import { emailRegexAtom, languageAtom } from '@/global/atoms/atoms'
 
-import SwitchLanguage from '../../components/SwitchLanguage'
+import SwitchLanguage from '@/components/SwitchLanguage/SwitchLanguage'
 
-import { authApi } from '../../global/api/api'
+import { authApi } from '@/global/api/api'
 
-import { type MessageKey, messages, locales } from '../../global/translations'
+import { type MessageKey, messages, locales } from '@/global/translations'
 
-import { Logo, PasswordHide, PasswordShow, ArrowIcon } from '../../assets'
+import { Logo, PasswordHide, PasswordShow, ArrowIcon } from '@/assets'
 
-import '../../styles/global/global.scss'
-import '../../styles/site/login.scss'
+import '@/styles/global/global.scss'
+import './login.scss'
 ```
 
 ---
@@ -267,7 +276,7 @@ import '../../styles/site/login.scss'
 - use double quotes for JSX attributes
 - break JSX props onto multiple lines when there are more than 3 props
 - `onClick`, `onSubmit`, `onChange` always go at the beginning; `className` always goes last for best readability
-- always add an `alt` attribute to `<img>`, use a descriptive value for images that carry meaning (e.g. a logo or photo); use `alt=""` for decorative images where removing them would not affect understanding
+- always add an `alt` attribute to `<img>` use a descriptive value for images that carry meaning (e.g. a logo or photo); use `alt=""` for decorative images where removing them would not affect understanding
 - `alt` values follow the same prefix convention as classNames but the name part is always PascalCase: `alt="icon_ArrowRight"`, `alt="image_DashboardOverview"`, `alt="image_Logo"`
 
 **Examples:**
@@ -360,11 +369,11 @@ import '../../styles/site/login.scss'
 import { useState } from 'react'
 
 import { useAtom } from 'jotai'
-import { languageAtom } from '../../global/atoms/atoms'
+import { languageAtom } from '@/global/atoms/atoms'
 
-import { locales } from '../../global/translations'
+import { locales } from '@/global/translations'
 
-import '../../styles/site/profile.scss'
+import './profile.scss'
 
 interface ProfileProps {
     userId: string
@@ -629,7 +638,7 @@ export { default as PasswordShow } from './ui/password-show.svg'
 
 ```tsx
 // when used in a component
-import { Logo, ArrowIcon } from '../../assets'
+import { Logo, ArrowIcon } from '@/assets'
 ```
 
 ---
@@ -745,4 +754,3 @@ const baseUrl = import.meta.env.VITE_API_URL
 - only use comments to explain complex logic
 - remove unnecessary comments
 - always keep comments minimal; never overuse comments in code
-- never use em dashes (—) in comments
